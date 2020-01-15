@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craftbeer.api.domain.BeerDomain;
+import com.craftbeer.api.exception.NotFoundException;
+import com.craftbeer.api.exception.UnprocessableEntityException;
 import com.craftbeer.api.json.request.BeerRequest;
 import com.craftbeer.api.repository.CraftBeerRepository;
 import com.craftbeer.com.json.response.GetBeerResponse;
@@ -26,7 +28,7 @@ public class CraftBeerService {
 	public GetBeerResponse getBeerById(String id) {
 		Optional<BeerDomain> findById = craftBeerRepository.findById(id);
 		if(!findById.isPresent()) {
-			throw new RuntimeException();
+			throw new NotFoundException();
 		}
 		return GetBeerResponse.builder()
 				.id(findById.get().getId())
@@ -41,17 +43,21 @@ public class CraftBeerService {
 	public BeerDomain saveBeer(BeerRequest beer) {
 		Optional<BeerDomain> findByName = craftBeerRepository.findByName(beer.getName());
 		if(findByName.isPresent()) {
-			throw new RuntimeException();
+			throw new UnprocessableEntityException("There is a beer registered with this name already.");
 		}
 		return craftBeerRepository.save(beer.toDomain());
 	}
 	
 	public void updateBeer(BeerRequest beer, String id) {
-		craftBeerRepository.findById(id).orElseThrow(RuntimeException::new);
+		craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
 		saveBeer(beer);
 	}
 	
 	public void deleteBeer(String id) {
-		
+		Optional<BeerDomain> findById = craftBeerRepository.findById(id);
+		if(!findById.isPresent()) {
+			throw new NotFoundException();
+		}
+		craftBeerRepository.deleteById(id);
 	}
 }

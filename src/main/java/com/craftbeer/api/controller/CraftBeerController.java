@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,14 @@ public class CraftBeerController {
 	public ResponseEntity<GetBeerResponse> updateBeer(
 			@PathVariable("id") String id,
 			@RequestBody BeerRequest requestBody) {
-		return ResponseEntity.ok(null);
+		craftBeerService.updateBeer(requestBody, id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	
+	@DeleteMapping("/beers/{id}")
+	public ResponseEntity<Void> deleteBeer(
+			@PathVariable("id") String id) {
+		craftBeerService.deleteBeer(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }
