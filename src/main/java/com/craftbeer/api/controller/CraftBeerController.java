@@ -43,7 +43,7 @@ public class CraftBeerController {
 			@RequestBody BeerRequest requestBody,
 			UriComponentsBuilder b) {
 		BeerDomain saveBeer = craftBeerService.saveBeer(requestBody);
-		return ResponseEntity.created(b.path("/beers/{id}").buildAndExpand(saveBeer.getId()).toUri()).build();
+		return ResponseEntity.created(b.path("/craftbeer/beers/{id}").buildAndExpand(saveBeer.getId()).toUri()).build();
 	}
 
 	@PutMapping("/beers/{id}")
