@@ -69,6 +69,13 @@ public class CraftBeerService {
 		craftBeerRepository.deleteById(id);
 	}
 	
+	/**
+	 * Method to get the jsonRequest and entity from db and override the entity with the new value
+	 * received in jsonRequest
+	 * @param beer
+	 * @param beerDomain
+	 * @return BeerRequest class
+	 */
 	public BeerRequest validateFields(BeerRequest beer, BeerDomain beerDomain) {
 		if(beer.getName() == null) {
 			beer.setName(beerDomain.getName());
