@@ -2,6 +2,7 @@ package com.craftbeer.api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -28,5 +29,11 @@ public class ControllerAdvice {
 	public ResponseEntity<ErrorResponse> handleUnprocessableEntity(UnprocessableEntityException e) {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.body(e.getError());
+	}
+	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+				.body("You need to specify the ID on uri for this request");
 	}
 }

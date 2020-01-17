@@ -63,7 +63,6 @@ public class CraftBeerController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
-	
 	@DeleteMapping("/beers/{id}")
 	public ResponseEntity<Void> deleteBeer(
 			@PathVariable("id") String id) {
