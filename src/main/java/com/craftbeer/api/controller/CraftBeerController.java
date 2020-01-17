@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,6 +54,15 @@ public class CraftBeerController {
 		craftBeerService.updateBeer(requestBody, id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
+	
+	@PatchMapping("/beers/{id}")
+	public ResponseEntity<GetBeerResponse> partialUpdateBeer(
+			@PathVariable("id") String id,
+			@RequestBody BeerRequest requestBody) {
+		craftBeerService.partialUpdateBeer(id, requestBody);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	
 	
 	@DeleteMapping("/beers/{id}")
 	public ResponseEntity<Void> deleteBeer(

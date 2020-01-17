@@ -28,4 +28,14 @@ public class BeerRequest {
 				.category(category)
 				.build();
 	}
+	public BeerDomain toDomain(String id) {
+		return BeerDomain.builder()
+				.id(id)
+				.name(name)
+				.ingredients(ingredients)
+				.alcoholContent(alcoholContent)
+				.price(price)
+				.category(category)
+				.build();
+	}
 }

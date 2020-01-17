@@ -50,14 +50,41 @@ public class CraftBeerService {
 	
 	public void updateBeer(BeerRequest beer, String id) {
 		craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
-		saveBeer(beer);
+		
+		Optional<BeerDomain> findByName = craftBeerRepository.findByName(beer.getName());
+		if(findByName.isPresent() && !findByName.get().getId().equals(id)) {
+			throw new UnprocessableEntityException("There is a beer registered with this name already.");
+		}	
+		craftBeerRepository.save(beer.toDomain(id));
+	}
+	
+	public void partialUpdateBeer(String id, BeerRequest beer) {
+		BeerDomain beerDomain = craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
+		BeerRequest newValue = validateFields(beer, beerDomain);
+		craftBeerRepository.save(newValue.toDomain(id));
 	}
 	
 	public void deleteBeer(String id) {
-		Optional<BeerDomain> findById = craftBeerRepository.findById(id);
-		if(!findById.isPresent()) {
-			throw new NotFoundException();
-		}
+		craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
 		craftBeerRepository.deleteById(id);
+	}
+	
+	public BeerRequest validateFields(BeerRequest beer, BeerDomain beerDomain) {
+		if(beer.getName() == null) {
+			beer.setName(beerDomain.getName());
+		}
+		if(beer.getAlcoholContent() == null) {
+			beer.setAlcoholContent(beerDomain.getAlcoholContent());
+		}
+		if(beer.getCategory() == null) {
+			beer.setCategory(beerDomain.getCategory());
+		}
+		if(beer.getIngredients() == null) {
+			beer.setIngredients(beerDomain.getIngredients());
+		}
+		if(beer.getPrice() == null) {
+			beer.setPrice(beerDomain.getPrice());
+		}
+		return beer;
 	}
 }
