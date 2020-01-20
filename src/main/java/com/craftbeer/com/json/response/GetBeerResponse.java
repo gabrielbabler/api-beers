@@ -1,11 +1,8 @@
 package com.craftbeer.com.json.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import org.bson.types.ObjectId;
-
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Data
