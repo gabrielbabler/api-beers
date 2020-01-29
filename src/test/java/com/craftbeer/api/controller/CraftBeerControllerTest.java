@@ -5,9 +5,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,6 +20,7 @@ import org.springframework.http.MediaType;
 import com.craftbeer.api.domain.BeerDomain;
 import com.craftbeer.api.json.request.BeerRequest;
 import com.craftbeer.api.service.CraftBeerService;
+import com.craftbeer.com.json.response.GetBeerResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,6 +39,7 @@ public class CraftBeerControllerTest extends AbstractControllerTest {
 
 	@Test
 	public void callGetBeersAndExpectSuccess() throws Exception {
+		givenCraftBeerServiceGetAllBeersReturnSuccess();
 		whenCallGetBeers();
 		thenExpectSuccess();
 	}
@@ -42,6 +47,7 @@ public class CraftBeerControllerTest extends AbstractControllerTest {
 	@Test
 	public void callGetBeersByIdAndExpectSuccess() throws Exception {
 		givenId();
+		givenCraftBeerServiceGetBeerByIdReturnSuccess();
 		whenCallGetBeersById();
 		thenExpectSuccess();
 	}
@@ -86,28 +92,50 @@ public class CraftBeerControllerTest extends AbstractControllerTest {
 	private void givenCraftBeerServiceUpdateBeerReturnSuccess() {
 		doNothing().when(craftBeerService).updateBeer(any(BeerRequest.class), anyString());
 	}
+	
+	private void givenCraftBeerServiceGetAllBeersReturnSuccess() {
+		when(craftBeerService.getAllBeers())
+			.thenReturn(Arrays.asList(new GetBeerResponse("a", "a", "a", "a", 1, "a")));
+	}
+	
+	private void givenCraftBeerServiceGetBeerByIdReturnSuccess() {
+		when(craftBeerService.getBeerById(id))
+			.thenReturn(GetBeerResponse.builder()
+				.name("a")
+				.ingredients("a")
+				.alcoholContent("a")
+				.price(1)
+				.category("a")
+				.build());
+	}
 
 	// WHEN
 	private void whenCallGetBeers() throws Exception {
-		response = mockMvc.perform(get(GET_BEERS)).andReturn().getResponse();
+		response = mockMvc.perform(get(GET_BEERS))
+				.andReturn()
+				.getResponse();
 	}
 
 	private void whenCallGetBeersById() throws Exception {
-		response = mockMvc.perform(get(GET_BEERS_BY_ID, id)).andReturn().getResponse();
+		response = mockMvc.perform(get(GET_BEERS_BY_ID, id))
+				.andReturn()
+				.getResponse();
 	}
 
 	private void whenCallPostBeer() throws Exception {
 		response = mockMvc.perform(post(POST_BEER)
 				.content(asJsonString(request))
 				.contentType(MediaType.APPLICATION_JSON))
-				.andReturn().getResponse();
+				.andReturn()
+				.getResponse();
 	}
 	
 	private void whenCallPutBeer() throws Exception {
 		response = mockMvc.perform(put(PUT_BEER, id)
 				.content(asJsonString(request))
 				.contentType(MediaType.APPLICATION_JSON))
-				.andReturn().getResponse();
+				.andReturn()
+				.getResponse();
 	}
 
 	// THEN

@@ -1,7 +1,6 @@
 package com.craftbeer.api.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.craftbeer.com.json.response.GetBeerResponse;
 
@@ -14,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Beers")
 public class BeerDomain {
 	@Id
 	private String id;

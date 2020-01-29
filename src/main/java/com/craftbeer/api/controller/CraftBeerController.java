@@ -30,13 +30,13 @@ public class CraftBeerController {
 
 	@GetMapping("/beers")
 	public ResponseEntity<List<GetBeerResponse>> getBeers() {
-		return ResponseEntity.ok(craftBeerService.getAllBeers());
+		return ResponseEntity.ok().body(craftBeerService.getAllBeers());
 	}
 	
 	@GetMapping("/beers/{id}")
 	public ResponseEntity<GetBeerResponse> getBeerById(
 			@PathVariable("id") String id) {
-		return ResponseEntity.ok(craftBeerService.getBeerById(id));
+		return ResponseEntity.ok().body(craftBeerService.getBeerById(id));
 	}
 
 	@PostMapping("/beers")

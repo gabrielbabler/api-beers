@@ -50,11 +50,7 @@ public class CraftBeerService {
 	
 	public void updateBeer(BeerRequest beer, String id) {
 		craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
-		
-		Optional<BeerDomain> findByName = craftBeerRepository.findByName(beer.getName());
-		if(findByName.isPresent() && !findByName.get().getId().equals(id)) {
-			throw new UnprocessableEntityException("There is a beer registered with this name already.");
-		}	
+		verifyName(beer.getName());
 		craftBeerRepository.save(beer.toDomain(id));
 	}
 	
@@ -67,6 +63,14 @@ public class CraftBeerService {
 	public void deleteBeer(String id) {
 		craftBeerRepository.findById(id).orElseThrow(NotFoundException::new);
 		craftBeerRepository.deleteById(id);
+	}
+	
+	public void verifyName(String name) {
+		Optional<BeerDomain> findByName = craftBeerRepository.findByName(name);
+		
+		if(findByName.isPresent()) {
+			throw new UnprocessableEntityException("There is a beer registered with this name already.");
+		}
 	}
 	
 	/**
@@ -83,6 +87,7 @@ public class CraftBeerService {
 		if(beer.getAlcoholContent() == null) {
 			beer.setAlcoholContent(beerDomain.getAlcoholContent());
 		}
+		
 		if(beer.getCategory() == null) {
 			beer.setCategory(beerDomain.getCategory());
 		}

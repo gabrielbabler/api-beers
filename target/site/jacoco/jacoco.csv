@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+craftbeer,com.craftbeer.api.service,CraftBeerService,179,3,16,0,44,1,16,1,8,1
+craftbeer,com.craftbeer.api.controller,CraftBeerController,59,3,0,0,10,1,6,1,6,1
+craftbeer,com.craftbeer.api.controller,ControllerAdvice,28,3,0,0,8,1,4,1,4,1

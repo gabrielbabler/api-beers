@@ -1,0 +1,16 @@
+com/craftbeer/api/json/request/BeerRequest.class
+com/craftbeer/api/service/CraftBeerService.class
+com/craftbeer/api/exception/NotFoundException.class
+com/craftbeer/api/swagger/SwaggerConfig.class
+com/craftbeer/api/repository/CraftBeerRepository.class
+com/craftbeer/api/CraftbeerApplication.class
+com/craftbeer/api/domain/BeerDomain.class
+com/craftbeer/api/exception/UnprocessableEntityException.class
+com/craftbeer/api/controller/CraftBeerController.class
+com/craftbeer/api/json/request/BeerRequest$BeerRequestBuilder.class
+com/craftbeer/api/exception/ErrorResponse$ErrorResponseBuilder.class
+com/craftbeer/com/json/response/GetBeerResponse.class
+com/craftbeer/api/domain/BeerDomain$BeerDomainBuilder.class
+com/craftbeer/api/exception/ErrorResponse.class
+com/craftbeer/com/json/response/GetBeerResponse$GetBeerResponseBuilder.class
+com/craftbeer/api/controller/ControllerAdvice.class
